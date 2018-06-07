@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/setting_line"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/menu_home_on"
+        android:id="@+id/menu_home_btn"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:layout_margin="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/menu_mask_btn"/>
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/menu_mask_btn"
+        android:src="@drawable/menu_mask_off"
+        android:scaleType="fitCenter"
+        android:layout_margin="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintLeft_toRightOf="@id/menu_home_btn"
+        app:layout_constraintRight_toLeftOf="@id/menu_info_btn"/>
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/menu_info_btn"
+        android:src="@drawable/menu_info_off"
+        android:scaleType="fitCenter"
+        android:layout_margin="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintLeft_toRightOf="@id/menu_mask_btn"
+        app:layout_constraintRight_toLeftOf="@id/menu_setting_btn"/>
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/menu_setting_btn"
+        android:src="@drawable/menu_setting_off"
+        android:scaleType="fitCenter"
+        android:layout_margin="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintLeft_toRightOf="@id/menu_info_btn"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

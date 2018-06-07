@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_lo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/main_expect_lo">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_location_lo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/main_time_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/main_pin"
+                android:id="@+id/main_location_pin"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="현재 위치"
+                android:textSize="24dp"
+                android:id="@+id/main_place_tv"
+                app:layout_constraintLeft_toRightOf="@id/main_location_pin" />
+
+        </android.support.constraint.ConstraintLayout>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-05-31 11:11PM"
+            android:id="@+id/main_time_tv"
+            android:textSize="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_location_lo"
+            app:layout_constraintBottom_toTopOf="@id/main_condition_iv"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="140dp"
+            android:src="@drawable/good"
+            android:id="@+id/main_condition_iv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_time_tv"
+            app:layout_constraintBottom_toTopOf="@id/main_comment_tv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="청명해요 우리 산책갈까요?"
+            android:textSize="17dp"
+            android:id="@+id/main_comment_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_condition_iv"
+            app:layout_constraintBottom_toTopOf="@id/main_share_btn"
+            app:layout_constraintBottom_toBottomOf="@id/main_detail_btn"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:background="@android:color/transparent"
+            android:text="공유하기"
+            android:textSize="14dp"
+            android:textAlignment="textStart"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/main_share_btn"
+            android:layout_marginTop="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_comment_tv"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:background="@android:color/transparent"
+            android:text="상세보기"
+            android:textSize="14dp"
+            android:textAlignment="textEnd"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/main_detail_btn"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_comment_tv"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_expect_lo"
+        app:layout_constraintTop_toBottomOf="@id/main_lo"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="주간 먼지"
+            android:textSize="16dp"
+            android:paddingLeft="20dp"
+            android:id="@+id/main_expect_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/main_rv"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/setting_line"
+            android:layout_marginTop="2dp"
+            app:layout_constraintTop_toBottomOf="@id/main_expect_tv"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:background="@android:color/darker_gray"
+            android:layout_height="120dp"
+            android:id="@+id/main_rv"
+            android:scrollbars="none"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:layout_marginTop="8dp"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/main_expect_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
