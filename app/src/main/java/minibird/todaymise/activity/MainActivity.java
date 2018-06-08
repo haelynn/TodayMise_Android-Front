@@ -1,6 +1,7 @@
 package minibird.todaymise.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -23,6 +24,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import minibird.todaymise.R;
 
@@ -31,6 +33,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
+    public static Activity mainActivity;
     static int MAX_PAGE = 2;
     static Fragment cur_fragment = new Fragment();
     private final long FINISH_INTERVAL_TIME = 2000;
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainActivity = MainActivity.this;
+
         FindView();
         homeBtn.setImageResource(R.drawable.menu_home_on);
         viewPager = (ViewPager)findViewById(R.id.main_vp);
@@ -57,6 +62,13 @@ public class MainActivity extends AppCompatActivity{
         viewPager.setAdapter(new adapter(getSupportFragmentManager()));
 
         // 페이지 이동
+        homeBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(viewPager.getCurrentItem() == 1)
+                    viewPager.setCurrentItem(0);
+            }
+        });
         maskBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -117,7 +129,7 @@ public class MainActivity extends AppCompatActivity{
                 super.onBackPressed();
             else{
                 backPressedTime = tempTime;
-                Toast.makeText(getApplicationContext(), "한번 더 누르면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "한 번 더 누르면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
             }
         }
     }

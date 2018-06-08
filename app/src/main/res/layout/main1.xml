@@ -36,6 +36,7 @@
                 android:id="@+id/main_place_tv"
                 app:layout_constraintLeft_toRightOf="@id/main_location_pin" />
 
+
         </android.support.constraint.ConstraintLayout>
         
         <TextView

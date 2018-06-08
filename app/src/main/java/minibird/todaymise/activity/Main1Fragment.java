@@ -24,6 +24,20 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.SocialObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.KakaoParameterException;
+import com.kakao.util.helper.log.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +56,10 @@ public class Main1Fragment extends Fragment{
     private ViewPager vp;
     private TextView location, curTime, comment;
     private ImageView conditionImg;
+    private ImageView pin;
     private String userLocation;
+    private Intent intent;
+    private int flag;
 
     public static Main1Fragment newInstance(String loc){
         Main1Fragment frag = new Main1Fragment();
@@ -57,6 +74,7 @@ public class Main1Fragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         userLocation = getArguments().getString("location");
+        flag = getArguments().getInt("flag");
 
      }
 
@@ -76,6 +94,7 @@ public class Main1Fragment extends Fragment{
         comment = (TextView)constraintLayout.findViewById(R.id.main_comment_tv);
         locationLo = (ConstraintLayout)constraintLayout.findViewById(R.id.main_location_lo);
         vp = (ViewPager)mainActivity.findViewById(R.id.main_vp);
+        pin = (ImageView)constraintLayout.findViewById(R.id.main_location_pin);
 
         curTime.setText(getTime());
         location.setText(userLocation);
@@ -90,7 +109,14 @@ public class Main1Fragment extends Fragment{
         locationLo.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
+                intent = new Intent(getActivity(), minibird.todaymise.activity.SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareKakao();
             }
         });
 
@@ -102,6 +128,36 @@ public class Main1Fragment extends Fragment{
         mDate = new Date(mNow);
 
         return mFormat.format(mDate);
+    }
+
+    private void shareKakao(){
+        FeedTemplate params = FeedTemplate
+                .newBuilder(ContentObject.newBuilder("디저트 사진",
+                        "http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+                        LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                .setMobileWebUrl("https://developers.kakao.com").build())
+                        .setDescrption("아메리카노, 빵, 케익")
+                        .build())
+                .addButton(new ButtonObject("앱으로 확인하기", LinkObject.newBuilder()
+                        .setWebUrl("'https://developers.kakao.com")
+                        .setMobileWebUrl("'https://developers.kakao.com")
+                        .setAndroidExecutionParams("key1=value1")
+                        .setIosExecutionParams("key1=value1")
+                        .build()))
+                .build();
+
+        KakaoLinkService.getInstance().sendDefault(getActivity(), params, new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Logger.e(errorResult.toString());
+            }
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
+
+            }
+        });
+
     }
 
 }
