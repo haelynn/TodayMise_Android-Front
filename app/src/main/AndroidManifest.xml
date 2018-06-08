@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="minibird.todaymise">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.SplashActivity">
@@ -20,11 +21,13 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.InformationActivity" />
-        <activity android:name=".activity.SettingActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
 
         <meta-data
-            android:name ="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC9b4LdehP5sT0MSFy7_QNVYxDkztsGfTg"/>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC9b4LdehP5sT0MSFy7_QNVYxDkztsGfTg" />
+
+        <activity android:name=".activity.EmptyActivity"></activity>
     </application>
 
 </manifest>

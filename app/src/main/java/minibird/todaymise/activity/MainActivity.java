@@ -1,26 +1,35 @@
 package minibird.todaymise.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.location.places.Places;
-
 import minibird.todaymise.R;
 
-public class MainActivity extends AppCompatActivity implements OnConnectionFailedListener{
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity{
 
     static int MAX_PAGE = 2;
     static Fragment cur_fragment = new Fragment();
@@ -32,25 +41,19 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
     private ImageButton settingBtn;
     private Intent intent;
     private ViewPager viewPager;
-
-    private GoogleApiClient mGoogleApiClient;
+    private static String userLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(this, this)
-                .build();
-
         FindView();
         homeBtn.setImageResource(R.drawable.menu_home_on);
-
         viewPager = (ViewPager)findViewById(R.id.main_vp);
+        intent = getIntent();
+        userLocation = intent.getExtras().getString("userLocation");
+
         viewPager.setAdapter(new adapter(getSupportFragmentManager()));
 
         // 페이지 이동
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
         });
     }
 
-    static public class adapter extends FragmentPagerAdapter {
+    static public class adapter extends FragmentStatePagerAdapter {
         public adapter(FragmentManager fm){
             super(fm);
         }
@@ -87,12 +90,9 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
         public Fragment getItem(int position) {
             if(position<0 || MAX_PAGE <= position) return null;
 
-            switch (position){
-                case 0:
-                    cur_fragment = new Main1Fragment();
-                    break;
-                case 1: cur_fragment = new Main2Fragment();
-                    break;
+            switch(position){
+                case 0: return Main1Fragment.newInstance(userLocation);
+                case 1: return Main2Fragment.newInstance(userLocation);
             }
             return cur_fragment;
         }
@@ -122,10 +122,6 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
         }
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 
     // findview
     private void FindView(){

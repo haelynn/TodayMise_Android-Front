@@ -18,13 +18,23 @@ import minibird.todaymise.R;
 
 public class Main2Fragment extends Fragment{
 
+    private String userLocation;
     private Button buyBtn;
     private TextView compareTxt, compList1, compList2, compList3, compList4, compList5, compList6;
     private ImageView compImg1, compImg2, compImg3, compImg4, compImg5, compImg6;
 
+    public static Main2Fragment newInstance(String loc){
+        Main2Fragment frag = new Main2Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("location", loc);
+        frag.setArguments(bundle);
+        return frag;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userLocation = getArguments().getString("location");
     }
 
     @Nullable
