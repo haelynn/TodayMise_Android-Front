@@ -18,16 +18,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/kakao_scheme"
-                    android:host="@string/kakaolink_host" />
+                <data
+                    android:host="@string/kakaolink_host"
+                    android:scheme="@string/kakao_scheme" />
             </intent-filter>
-
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.InformationActivity" />
@@ -36,13 +36,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC9b4LdehP5sT0MSFy7_QNVYxDkztsGfTg" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
         <activity android:name=".activity.EmptyActivity" />
-        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.MaskActivity"></activity>
     </application>
 
 </manifest>

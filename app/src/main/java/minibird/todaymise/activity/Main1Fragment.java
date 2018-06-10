@@ -2,6 +2,7 @@ package minibird.todaymise.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,6 +42,8 @@ import com.kakao.util.helper.log.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import minibird.todaymise.R;
 
@@ -129,24 +132,14 @@ public class Main1Fragment extends Fragment{
 
         return mFormat.format(mDate);
     }
-
+//"http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg"
     private void shareKakao(){
-        FeedTemplate params = FeedTemplate
-                .newBuilder(ContentObject.newBuilder("디저트 사진",
-                        "http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
-                        LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
-                                .setMobileWebUrl("https://developers.kakao.com").build())
-                        .setDescrption("아메리카노, 빵, 케익")
-                        .build())
-                .addButton(new ButtonObject("앱으로 확인하기", LinkObject.newBuilder()
-                        .setWebUrl("'https://developers.kakao.com")
-                        .setMobileWebUrl("'https://developers.kakao.com")
-                        .setAndroidExecutionParams("key1=value1")
-                        .setIosExecutionParams("key1=value1")
-                        .build()))
-                .build();
 
-        KakaoLinkService.getInstance().sendDefault(getActivity(), params, new ResponseCallback<KakaoLinkResponse>() {
+        String templateId = "10108";
+        Map<String, String> templateArgs = new HashMap<String, String>();
+        templateArgs.put("template_arg1", "value1");
+
+        KakaoLinkService.getInstance().sendCustom(getActivity(), templateId, templateArgs, new ResponseCallback<KakaoLinkResponse>() {
             @Override
             public void onFailure(ErrorResult errorResult) {
                 Logger.e(errorResult.toString());
@@ -154,7 +147,7 @@ public class Main1Fragment extends Fragment{
 
             @Override
             public void onSuccess(KakaoLinkResponse result) {
-
+                // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다.
             }
         });
 

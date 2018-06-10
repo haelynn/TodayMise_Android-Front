@@ -5,11 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import minibird.todaymise.R;
 
-public class SettingActivity extends AppCompatActivity {
+public class MaskActivity extends AppCompatActivity {
 
     private ImageButton homeBtn;
     private ImageButton maskBtn;
@@ -20,27 +19,27 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_mask);
 
         FindView();
         homeBtn.setImageResource(R.drawable.menu_home_off);
-        settingBtn.setImageResource(R.drawable.menu_setting_on);
+        maskBtn.setImageResource(R.drawable.menu_mask_on);
 
         // 페이지 이동
         homeBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 intent = new Intent(getApplicationContext(), minibird.todaymise.activity.MainActivity.class);
-                settingBtn.setImageResource(R.drawable.menu_setting_off);
+                maskBtn.setImageResource(R.drawable.menu_mask_off);
                 finish();
 
             }
         });
-        maskBtn.setOnClickListener(new View.OnClickListener(){
+        settingBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), minibird.todaymise.activity.MaskActivity.class);
-                settingBtn.setImageResource(R.drawable.menu_setting_off);
+                intent = new Intent(getApplicationContext(), minibird.todaymise.activity.SettingActivity.class);
+                infoBtn.setImageResource(R.drawable.menu_info_off);
                 startActivity(intent);
                 finish();
             }
@@ -49,7 +48,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(getApplicationContext(), minibird.todaymise.activity.InformationActivity.class);
-                settingBtn.setImageResource(R.drawable.menu_setting_off);
+                maskBtn.setImageResource(R.drawable.menu_mask_off);
                 startActivity(intent);
                 finish();
             }

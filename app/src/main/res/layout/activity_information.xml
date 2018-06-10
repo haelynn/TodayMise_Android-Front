@@ -89,13 +89,24 @@
                 app:layout_constraintTop_toBottomOf="@id/info_logo_iv"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
                 android:src="@drawable/info"
+                android:scaleType="fitEnd"
+                android:id="@+id/info_iv"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/info_logo_iv" />
+            
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:src="@drawable/info2"
+                android:layout_marginTop="20dp"
+                android:scaleType="fitStart"
+                app:layout_constraintTop_toBottomOf="@id/info_iv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
 
         </android.support.constraint.ConstraintLayout>

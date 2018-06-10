@@ -1,5 +1,6 @@
 package minibird.todaymise.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -63,7 +64,9 @@ public class Main2Fragment extends Fragment{
         buyBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(constraintLayout.getContext(), "준비 중인 서비스입니다", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), minibird.todaymise.activity.MaskActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(0, 0);
             }
         });
 

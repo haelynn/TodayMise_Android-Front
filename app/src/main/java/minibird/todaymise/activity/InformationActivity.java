@@ -38,7 +38,10 @@ public class InformationActivity extends AppCompatActivity {
         maskBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "준비 중인 서비스입니다", Toast.LENGTH_LONG).show();
+                intent = new Intent(getApplicationContext(), minibird.todaymise.activity.MaskActivity.class);
+                infoBtn.setImageResource(R.drawable.menu_info_off);
+                startActivity(intent);
+                finish();
             }
         });
         settingBtn.setOnClickListener(new View.OnClickListener(){

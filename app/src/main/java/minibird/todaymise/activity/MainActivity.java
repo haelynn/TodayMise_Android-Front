@@ -72,7 +72,9 @@ public class MainActivity extends AppCompatActivity{
         maskBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "준비 중인 서비스입니다", Toast.LENGTH_LONG).show();
+                intent = new Intent(getApplicationContext(), minibird.todaymise.activity.MaskActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0,0);
             }
         });
         infoBtn.setOnClickListener(new View.OnClickListener(){
