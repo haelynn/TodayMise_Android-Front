@@ -1,10 +1,12 @@
 package minibird.todaymise.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import minibird.todaymise.R;
@@ -15,6 +17,7 @@ public class InformationActivity extends AppCompatActivity {
     private ImageButton maskBtn;
     private ImageButton infoBtn;
     private ImageButton settingBtn;
+    private TextView title;
     private Intent intent;
 
     @Override
@@ -25,6 +28,7 @@ public class InformationActivity extends AppCompatActivity {
         FindView();
         homeBtn.setImageResource(R.drawable.menu_home_off);
         infoBtn.setImageResource(R.drawable.menu_info_on);
+        title.setPaintFlags(title.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
 
         // 페이지 이동
         homeBtn.setOnClickListener(new View.OnClickListener(){
@@ -67,5 +71,6 @@ public class InformationActivity extends AppCompatActivity {
         maskBtn = (ImageButton)findViewById(R.id.menu_mask_btn);
         infoBtn = (ImageButton)findViewById(R.id.menu_info_btn);
         settingBtn = (ImageButton)findViewById(R.id.menu_setting_btn);
+        title = (TextView)findViewById(R.id.info_title_tv);
     }
 }

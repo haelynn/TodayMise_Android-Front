@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:text="오늘, 먼지 설정"
             android:textSize="24dp"
+            android:id="@+id/setting_title_tv"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

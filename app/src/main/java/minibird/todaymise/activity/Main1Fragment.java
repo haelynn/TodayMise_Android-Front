@@ -1,9 +1,11 @@
 package minibird.todaymise.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -44,6 +46,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import minibird.todaymise.R;
 
@@ -63,6 +67,10 @@ public class Main1Fragment extends Fragment{
     private String userLocation;
     private Intent intent;
     private int flag;
+
+    //time
+    private TimerTask minute;
+    private Handler handler = new Handler();
 
     public static Main1Fragment newInstance(String loc){
         Main1Fragment frag = new Main1Fragment();
@@ -100,7 +108,12 @@ public class Main1Fragment extends Fragment{
         pin = (ImageView)constraintLayout.findViewById(R.id.main_location_pin);
 
         curTime.setText(getTime());
-        location.setText(userLocation);
+        timeStart();
+        if(userLocation != null)location.setText(userLocation);
+        else{
+            location.setText("알 수 없는 위치");
+            Toast.makeText(getActivity(), "설정에서 GPS를 키거나\n직접 위치를 설정해보세요", Toast.LENGTH_SHORT).show();
+        }
 
         detailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +163,27 @@ public class Main1Fragment extends Fragment{
                 // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다.
             }
         });
+    }
 
+    private void timeStart(){
+        minute = new TimerTask() {
+            @Override
+            public void run() {
+                Log.i("test", "타이머 시작");
+                Update();
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(minute, 0, 60000);
+    }
+
+    protected void Update(){
+        Runnable updater = new Runnable(){
+            public void run(){
+                curTime.setText(getTime());
+            }
+        };
+        handler.post(updater);
     }
 
 }
