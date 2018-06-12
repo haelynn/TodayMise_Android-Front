@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageButton settingBtn;
     private Intent intent;
     private ViewPager viewPager;
-    private static String userLocation;
+    private static String userLocation, locality;
     private static double longtitude = 0, latitude = 0;
 
     @Override
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity{
         userLocation = intent.getExtras().getString("userLocation");
         longtitude = intent.getExtras().getDouble("longtitude");
         latitude = intent.getExtras().getDouble("latitude");
+        locality = intent.getExtras().getString("locality");
 
         viewPager.setAdapter(new adapter(getSupportFragmentManager()));
 
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity{
             if(position<0 || MAX_PAGE <= position) return null;
 
             switch(position){
-                case 0: return Main1Fragment.newInstance(userLocation);
+                case 0: return Main1Fragment.newInstance(userLocation, locality);
                 case 1: return Main2Fragment.newInstance(userLocation, Double.toString(longtitude), Double.toString(latitude));
             }
             return cur_fragment;

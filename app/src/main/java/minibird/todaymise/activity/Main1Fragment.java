@@ -50,31 +50,40 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import minibird.todaymise.R;
+import minibird.todaymise.model.Main1Result;
+import minibird.todaymise.network.ApplicationController;
+import minibird.todaymise.network.NetworkService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Main1Fragment extends Fragment{
 
     private long mNow;
     private Date mDate;
     private SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+    private SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
     private ConstraintLayout locationLo;
     private Button detailBtn;
     private Button shareBtn;
     private MainActivity mainActivity;
     private ViewPager vp;
     private TextView location, curTime, comment;
-    private ImageView conditionImg;
+    private ImageView conditionImg, yesterdayImg, todayImage, tomorrowImg, threeImg;
     private ImageView pin;
-    private String userLocation;
+    private String userLocation, date, locality;
     private Intent intent;
     private int flag;
+    private NetworkService service;
 
     //time
     private TimerTask minute;
     private Handler handler = new Handler();
 
-    public static Main1Fragment newInstance(String loc){
+    public static Main1Fragment newInstance(String loc, String locality){
         Main1Fragment frag = new Main1Fragment();
         Bundle bundle = new Bundle();
+        bundle.putString("locality", locality);
         bundle.putString("location", loc);
         frag.setArguments(bundle);
         return frag;
@@ -85,7 +94,10 @@ public class Main1Fragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         userLocation = getArguments().getString("location");
+        locality = getArguments().getString("locality");
+        date = getDate();
         flag = getArguments().getInt("flag");
+        Log.e("TEXT", "날짜: " + date);
 
      }
 
@@ -94,6 +106,8 @@ public class Main1Fragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final ConstraintLayout constraintLayout = (ConstraintLayout)inflater.inflate(R.layout.main1, container, false);
+        service = ApplicationController.getInstance().getNetworkService();
+        getMain1();
 
         // findView
         detailBtn = (Button)constraintLayout.findViewById(R.id.main_detail_btn);
@@ -106,6 +120,10 @@ public class Main1Fragment extends Fragment{
         locationLo = (ConstraintLayout)constraintLayout.findViewById(R.id.main_location_lo);
         vp = (ViewPager)mainActivity.findViewById(R.id.main_vp);
         pin = (ImageView)constraintLayout.findViewById(R.id.main_location_pin);
+        todayImage = (ImageView)constraintLayout.findViewById(R.id.main_today_iv);
+        yesterdayImg = (ImageView)constraintLayout.findViewById(R.id.main_yesterd_iv);
+        tomorrowImg = (ImageView)constraintLayout.findViewById(R.id.main_two_iv);
+        threeImg = (ImageView)constraintLayout.findViewById(R.id.main_three_iv);
 
         curTime.setText(getTime());
         timeStart();
@@ -144,6 +162,12 @@ public class Main1Fragment extends Fragment{
         mDate = new Date(mNow);
 
         return mFormat.format(mDate);
+    }
+    private String getDate(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+
+        return dFormat.format(mDate);
     }
 //"http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg"
     private void shareKakao(){
@@ -184,6 +208,79 @@ public class Main1Fragment extends Fragment{
             }
         };
         handler.post(updater);
+    }
+
+    public void getMain1(){
+        Call<Main1Result> requestMain1 = service.getMain1Result(date, locality);
+
+        requestMain1.enqueue(new Callback<Main1Result>() {
+            @Override
+            public void onResponse(Call<Main1Result> call, Response<Main1Result> response) {
+                String today, tomorrow, three;
+                today = response.body().today;
+                tomorrow = response.body().tomorrow;
+                three = response.body().three;
+
+                yesterdayImg.setImageResource(R.drawable.soso_small);
+                switch (today){
+                    case "좋음":
+                        Log.e("TEXT", "좋음~");
+                        conditionImg.setImageResource(R.drawable.good);
+                        todayImage.setImageResource(R.drawable.good_small);
+                        comment.setText("청명해요 우리 산책갈까요?");
+                        break;
+                    case "보통":
+                        conditionImg.setImageResource(R.drawable.soso);
+                        todayImage.setImageResource(R.drawable.soso_small);
+                        comment.setText("쏘쏘해요~");
+                        break;
+                    case "나쁨":
+                        conditionImg.setImageResource(R.drawable.bad);
+                        todayImage.setImageResource(R.drawable.bad_small);
+                        comment.setText("마스크를 꼭 착용하세요!");
+                        break;
+                    case "매우나쁨" :
+                        conditionImg.setImageResource(R.drawable.verybad);
+                        todayImage.setImageResource(R.drawable.verybad_small);
+                        comment.setText("x_x 외출을 삼가하세요");
+                        break;
+                }
+
+                switch(tomorrow){
+                    case "좋음":
+                        tomorrowImg.setImageResource(R.drawable.good_small);
+                        break;
+                    case "보통":
+                        tomorrowImg.setImageResource(R.drawable.soso_small);
+                        break;
+                    case "나쁨":
+                        tomorrowImg.setImageResource(R.drawable.bad_small);
+                        break;
+                    case "매우나쁨":
+                        tomorrowImg.setImageResource(R.drawable.verybad_small);
+                        break;
+                }
+
+                switch(three){
+                    case "좋음":
+                        threeImg.setImageResource(R.drawable.good_small);
+                        break;
+                    case "보통":
+                        threeImg.setImageResource(R.drawable.soso_small);
+                        break;
+                    case "나쁨":threeImg.setImageResource(R.drawable.bad_small);
+                        break;
+                    case "매우나쁨":threeImg.setImageResource(R.drawable.verybad_small);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Main1Result> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }

@@ -128,6 +128,7 @@ public class EmptyActivity extends AppCompatActivity {
                 intent.putExtra("userLocation", str);
                 intent.putExtra("longtitude", longtitude);
                 intent.putExtra("latitude", latitude);
+                intent.putExtra("locality", address.getLocality().toString());
             }
             startActivity(intent);
             locationManager.removeUpdates(mLocationListener);
