@@ -80,11 +80,12 @@ public class Main1Fragment extends Fragment{
     private TimerTask minute;
     private Handler handler = new Handler();
 
-    public static Main1Fragment newInstance(String loc, String locality){
+    public static Main1Fragment newInstance(String loc, String locality, int state){
         Main1Fragment frag = new Main1Fragment();
         Bundle bundle = new Bundle();
         bundle.putString("locality", locality);
         bundle.putString("location", loc);
+        bundle.putInt("state", state);
         frag.setArguments(bundle);
         return frag;
     }
@@ -96,8 +97,8 @@ public class Main1Fragment extends Fragment{
         userLocation = getArguments().getString("location");
         locality = getArguments().getString("locality");
         serverDate = getDate();
-        Log.e("Text", locality + serverDate);
-        flag = getArguments().getInt("flag");
+        flag = getArguments().getInt("state");
+        Log.e("Text", locality + serverDate + flag);
 
      }
 
@@ -107,16 +108,13 @@ public class Main1Fragment extends Fragment{
 
         final ConstraintLayout constraintLayout = (ConstraintLayout)inflater.inflate(R.layout.main1, container, false);
 
-        service = ApplicationController.getInstance().getNetworkService();
-        getMain1("2018-06-12", locality);
-
         // findView
         detailBtn = (Button)constraintLayout.findViewById(R.id.main_detail_btn);
         shareBtn = (Button)constraintLayout.findViewById(R.id.main_share_btn);
         mainActivity = (MainActivity)getActivity();
         locationTv = (TextView)constraintLayout.findViewById(R.id.main_place_tv);
         curTime = (TextView)constraintLayout.findViewById(R.id.main_time_tv);
-        conditionImg = (ImageView)constraintLayout.findViewById(R.id.item_condition_iv);
+        conditionImg = (ImageView)constraintLayout.findViewById(R.id.main_condition_iv);
         comment = (TextView)constraintLayout.findViewById(R.id.main_comment_tv);
         locationLo = (ConstraintLayout)constraintLayout.findViewById(R.id.main_location_lo);
         vp = (ViewPager)mainActivity.findViewById(R.id.main_vp);
@@ -126,6 +124,9 @@ public class Main1Fragment extends Fragment{
         tomorrowImg = (ImageView)constraintLayout.findViewById(R.id.main_two_iv);
         threeImg = (ImageView)constraintLayout.findViewById(R.id.main_three_iv);
 
+        service = ApplicationController.getInstance().getNetworkService();
+        getMain1("2018-06-12", locality);
+
         curTime.setText(getTime());
         timeStart();
         if(userLocation != null)locationTv.setText(userLocation);
@@ -133,6 +134,11 @@ public class Main1Fragment extends Fragment{
             locationTv.setText("알 수 없는 위치");
             Toast.makeText(getActivity(), "설정에서 GPS를 키거나\n직접 위치를 설정해보세요", Toast.LENGTH_SHORT).show();
         }
+
+        if(flag == 1){
+            pin.setImageResource(R.drawable.main_pin_blue);
+        }
+        else pin.setImageResource(R.drawable.main_pin);
 
         detailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,72 +217,50 @@ public class Main1Fragment extends Fragment{
         handler.post(updater);
     }
 
-    public void getMain1(String sDate, String sLocation){
+    public void getMain1(final String sDate, final String sLocation){
         Call<Main1Result> requestMain1 = service.getMain1Result(sDate, sLocation);
 
         requestMain1.enqueue(new Callback<Main1Result>() {
             @Override
             public void onResponse(Call<Main1Result> call, Response<Main1Result> response) {
-                Log.e("Text", "리스폰스 결과" + response.isSuccessful());
+                Log.e("main1", "1리스폰스 결과" + response.isSuccessful() + sDate + sLocation);
                 if(response.isSuccessful()){
                     String today, tomorrow, three;
-                    Log.e("Text", "오늘 " + response.body().today);
-                    today = response.body().today;
-                    tomorrow = response.body().tomorrow;
-                    three = response.body().three;
+                    Log.e("Text", "오늘은 " + response.body().today);
+                    today = response.body().today.trim().toString();
+                    tomorrow = response.body().tomorrow.trim().toString();
+                    three = response.body().three.trim().toString();
+
+                    Log.e("maintest", today + "테스트입니다" + today.equals("보통"));
 
                     yesterdayImg.setImageResource(R.drawable.soso_small);
-                    switch (today){
-                        case "좋음":
-                            Log.e("TEXT", "좋음~");
-                            conditionImg.setImageResource(R.drawable.good);
-                            todayImage.setImageResource(R.drawable.good_small);
-                            comment.setText("청명해요 우리 산책갈까요?");
-                            break;
-                        case "보통":
-                            conditionImg.setImageResource(R.drawable.soso);
-                            todayImage.setImageResource(R.drawable.soso_small);
-                            comment.setText("쏘쏘해요~");
-                            break;
-                        case "나쁨":
-                            conditionImg.setImageResource(R.drawable.bad);
-                            todayImage.setImageResource(R.drawable.bad_small);
-                            comment.setText("마스크를 꼭 착용하세요!");
-                            break;
-                        case "매우나쁨" :
-                            conditionImg.setImageResource(R.drawable.verybad);
-                            todayImage.setImageResource(R.drawable.verybad_small);
-                            comment.setText("x_x 외출을 삼가하세요");
-                            break;
+                    if(today.equals("좋음")){
+                        conditionImg.setImageResource(R.drawable.good);
+                        todayImage.setImageResource(R.drawable.good_small);
+                    }
+                    else if(today.equals("보통")){
+                        Log.e("###", "보통의" + todayImage.getId());
+                        conditionImg.setImageResource(R.drawable.soso);
+                        todayImage.setImageResource(R.drawable.soso_small);
+                    }
+                    else if(today.equals("나쁨")){
+                        conditionImg.setImageResource(R.drawable.bad);
+                        todayImage.setImageResource(R.drawable.bad_small);
+                    }
+                    else if(today.equals("매우나쁨")){
+                        conditionImg.setImageResource(R.drawable.verybad);
+                        todayImage.setImageResource(R.drawable.verybad_small);
                     }
 
-                    switch(tomorrow){
-                        case "좋음":
-                            tomorrowImg.setImageResource(R.drawable.good_small);
-                            break;
-                        case "보통":
-                            tomorrowImg.setImageResource(R.drawable.soso_small);
-                            break;
-                        case "나쁨":
-                            tomorrowImg.setImageResource(R.drawable.bad_small);
-                            break;
-                        case "매우나쁨":
-                            tomorrowImg.setImageResource(R.drawable.verybad_small);
-                            break;
-                    }
+                    if(tomorrow.equals("좋음")) tomorrowImg.setImageResource(R.drawable.good_small);
+                    else if(tomorrow.equals("보통")) tomorrowImg.setImageResource(R.drawable.soso_small);
+                    else if(tomorrow.equals("나쁨")) tomorrowImg.setImageResource(R.drawable.bad_small);
+                    else if(tomorrow.equals("매우나쁨")) tomorrowImg.setImageResource(R.drawable.verybad_small);
 
-                    switch(three){
-                        case "좋음":
-                            threeImg.setImageResource(R.drawable.good_small);
-                            break;
-                        case "보통":
-                            threeImg.setImageResource(R.drawable.soso_small);
-                            break;
-                        case "나쁨":threeImg.setImageResource(R.drawable.bad_small);
-                            break;
-                        case "매우나쁨":threeImg.setImageResource(R.drawable.verybad_small);
-                            break;
-                    }
+                    if(three.equals("좋음")) threeImg.setImageResource(R.drawable.good_small);
+                    else if(tomorrow.equals("보통")) threeImg.setImageResource(R.drawable.soso_small);
+                    else if(tomorrow.equals("나쁨")) threeImg.setImageResource(R.drawable.bad_small);
+                    else if(tomorrow.equals("매우나쁨")) threeImg.setImageResource(R.drawable.verybad_small);
                 }
             }
 

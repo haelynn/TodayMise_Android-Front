@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="개발 버전 정보(상초리와 아기새들 v.0.0)"
+            android:text="개발 버전 정보(상초리와 아기새들 v.1.0)"
             android:textSize="18dp"
             android:id="@+id/setting_dev_tv"/>
 

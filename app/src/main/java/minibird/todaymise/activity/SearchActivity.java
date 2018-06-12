@@ -90,6 +90,7 @@ public class SearchActivity extends AppCompatActivity implements OnConnectionFai
                         str += " " + address.getThoroughfare().toString();
                     mainActivity.finish();
                     intent.putExtra("userLocation", str);
+                    intent.putExtra("state", 0);
 
                     // Toast.makeText(getApplicationContext(), latitude + longitude + str, Toast.LENGTH_LONG).show();
 

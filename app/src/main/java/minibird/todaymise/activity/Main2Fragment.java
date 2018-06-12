@@ -61,9 +61,6 @@ public class Main2Fragment extends Fragment{
 
         final ConstraintLayout constraintLayout = (ConstraintLayout)inflater.inflate(R.layout.main2, container, false);
 
-        service = ApplicationController.getInstance().getNetworkService();
-        getResult(longtitude, latitude);
-
         // findView
         buyBtn = (Button)constraintLayout.findViewById(R.id.main_buy_btn);
         compareTxt = (TextView)constraintLayout.findViewById(R.id.main_compare2_iv);
@@ -80,6 +77,9 @@ public class Main2Fragment extends Fragment{
         compImg5 = (ImageView)constraintLayout.findViewById(R.id.main_comp_iv5);
         compImg6 = (ImageView)constraintLayout.findViewById(R.id.main_comp_iv6);
         update = (TextView)constraintLayout.findViewById(R.id.main_update_tv);
+
+        service = ApplicationController.getInstance().getNetworkService();
+        getResult(longtitude, latitude);
 
 
         buyBtn.setOnClickListener(new View.OnClickListener(){
@@ -103,9 +103,123 @@ public class Main2Fragment extends Fragment{
             public void onResponse(Call<Main2Result> call, Response<Main2Result> response) {
                 //Toast.makeText(getActivity(), response.body().getClass().getFields().toString(), Toast.LENGTH_LONG).show();
 
+                Log.e("main2", "2리스폰스 결과 " + response.isSuccessful());
                 if(response.isSuccessful()){
-                    compareTxt.setText(response.body().tabbaco + "개피와 같아요");
+                    compareTxt.setText(response.body().tabbaco.toString() + "개피와 같아요");
                     update.setText("업데이트 시간 " + response.body().dataTime);
+
+                    if(response.body().pm10Value == "" || response.body().pm10Value == "-")
+                        compList1.setText("0.001㎍/m");
+                    else compList1.setText(response.body().pm10Value + "㎍/m");
+                    switch(response.body().pm10Grade){
+                        case "1":
+                            compImg1.setImageResource(R.drawable.good_small);
+                            break;
+                        case "2":
+                            compImg1.setImageResource(R.drawable.soso_small);
+                            break;
+                        case "3":
+                            compImg1.setImageResource(R.drawable.bad_small);
+                            break;
+                        case "4":
+                            compImg1.setImageResource(R.drawable.verybad_small);
+                            break;
+                    }
+
+
+                    if(response.body().pm25Value == "" || response.body().pm25Value == "-")
+                        compList2.setText("0.001㎍/m");
+                    else compList2.setText(response.body().pm25Value + "㎍/m");
+                    switch (response.body().pm25Grade){
+                        case "1":
+                            compImg2.setImageResource(R.drawable.good_small);
+                            break;
+                        case "2":
+                            compImg2.setImageResource(R.drawable.soso_small);
+                            break;
+                        case "3":
+                            compImg2.setImageResource(R.drawable.bad_small);
+                            break;
+                        case "4":
+                            compImg2.setImageResource(R.drawable.verybad_small);
+                            break;
+                    }
+
+                    if(response.body().o3Value == "" || response.body().o3Value == "-")
+                        compList3.setText("0.001ppm");
+                    else compList3.setText(response.body().o3Value.toString() + "ppm");
+                    switch (response.body().o3Grade){
+                        case "1":
+                            compImg3.setImageResource(R.drawable.good_small);
+                            break;
+                        case "2":
+                            compImg3.setImageResource(R.drawable.soso_small);
+                            break;
+                        case "3":
+                            compImg3.setImageResource(R.drawable.bad_small);
+                            break;
+                        case "4":
+                            compImg3.setImageResource(R.drawable.verybad_small);
+                            break;
+                    }
+
+
+                    if(response.body().no2Value == "" || response.body().no2Value == "-")
+                        compList4.setText("0.001ppm");
+                    else compList4.setText(response.body().no2Value + "ppm");
+                    switch (response.body().no2Grade){
+                        case "1":
+                            compImg4.setImageResource(R.drawable.good_small);
+                            break;
+                        case "2":
+                            compImg4.setImageResource(R.drawable.soso_small);
+                            break;
+                        case "3":
+                            compImg4.setImageResource(R.drawable.bad_small);
+                            break;
+                        case "4":
+                            compImg4.setImageResource(R.drawable.verybad_small);
+                            break;
+                    }
+
+
+                    if(response.body().coValue == "" || response.body().coValue == "-")
+                        compList5.setText("0.001ppm");
+                    else compList5.setText(response.body().coValue + "ppm");
+                    switch (response.body().coGrade){
+                        case "1":
+                            compImg5.setImageResource(R.drawable.good_small);
+                            break;
+                        case "2":
+                            compImg5.setImageResource(R.drawable.soso_small);
+                            break;
+                        case "3":
+                            compImg5.setImageResource(R.drawable.bad_small);
+                            break;
+                        case "4":
+                            compImg5.setImageResource(R.drawable.verybad_small);
+                            break;
+                    }
+
+
+                    if(response.body().so2Value == "" || response.body().so2Value == "-")
+                        compList6.setText("0.001ppm");
+                    else compList6.setText(response.body().so2Value + "ppm");
+                    switch (response.body().so2Grade){
+                        case "1":
+                            compImg6.setImageResource(R.drawable.good_small);
+                            break;
+                        case "2":
+                            compImg6.setImageResource(R.drawable.soso_small);
+                            break;
+                        case "3":
+                            compImg6.setImageResource(R.drawable.bad_small);
+                            break;
+                        case "4":
+                            compImg6.setImageResource(R.drawable.verybad_small);
+                            break;
+                    }
+
                 }
             }
 

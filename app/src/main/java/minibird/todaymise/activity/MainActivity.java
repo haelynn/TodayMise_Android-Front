@@ -34,7 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity{
 
     public static Activity mainActivity;
-    static int MAX_PAGE = 2;
+    static int MAX_PAGE = 2, state = 0;
     static Fragment cur_fragment = new Fragment();
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity{
         longtitude = intent.getExtras().getDouble("longtitude");
         latitude = intent.getExtras().getDouble("latitude");
         locality = intent.getExtras().getString("locality");
+        state = intent.getExtras().getInt("state");
 
         viewPager.setAdapter(new adapter(getSupportFragmentManager()));
 
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity{
             if(position<0 || MAX_PAGE <= position) return null;
 
             switch(position){
-                case 0: return Main1Fragment.newInstance(userLocation, locality);
+                case 0: return Main1Fragment.newInstance(userLocation, locality, state);
                 case 1: return Main2Fragment.newInstance(userLocation, Double.toString(longtitude), Double.toString(latitude));
             }
             return cur_fragment;

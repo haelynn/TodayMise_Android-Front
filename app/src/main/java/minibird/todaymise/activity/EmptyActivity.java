@@ -94,6 +94,7 @@ public class EmptyActivity extends AppCompatActivity {
                 else{
                     // 권한 거부
                     intent.putExtra("userLocation", location);
+                    intent.putExtra("state", 0);
                     Toast.makeText(getApplicationContext(), "위치 접근 권한이 없습니다 x_x \n기본 지역으로 정보를 보내드립니다", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                     finish();
@@ -129,6 +130,7 @@ public class EmptyActivity extends AppCompatActivity {
                 intent.putExtra("longtitude", longtitude);
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("locality", address.getLocality().toString());
+                intent.putExtra("state", 1);
             }
             startActivity(intent);
             locationManager.removeUpdates(mLocationListener);
