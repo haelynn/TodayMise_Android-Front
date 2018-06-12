@@ -20,12 +20,12 @@ import retrofit2.http.Query;
 public interface NetworkService {
 
     @GET("/main1")
-    Call<Main1Result> getMain1Result(@Query("date") String date,
-                                     @Query("location") String location);
+    Call<Main1Result> getMain1Result(@Query("date") String sDate,
+                                     @Query("location") String sLocation);
 
     // main2
     @GET("/main2")
-    Call<Main2Result> getMain2Result(@Query("XVal") String xValue,
+    Call<Main2Result> getMain2Result(@Query("XVal") String XValue,
                                      @Query("YVal") String YValue);
 
 }

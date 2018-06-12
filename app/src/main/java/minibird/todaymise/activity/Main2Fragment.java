@@ -103,8 +103,10 @@ public class Main2Fragment extends Fragment{
             public void onResponse(Call<Main2Result> call, Response<Main2Result> response) {
                 //Toast.makeText(getActivity(), response.body().getClass().getFields().toString(), Toast.LENGTH_LONG).show();
 
-                compareTxt.setText(response.body().tabbaco + "개피와 같아요");
-                update.setText("업데이트 시간 " + response.body().dataTime);
+                if(response.isSuccessful()){
+                    compareTxt.setText(response.body().tabbaco + "개피와 같아요");
+                    update.setText("업데이트 시간 " + response.body().dataTime);
+                }
             }
 
             @Override
