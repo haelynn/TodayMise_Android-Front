@@ -1,5 +1,7 @@
 package minibird.todaymise.network;
 
+import minibird.todaymise.model.Main1Result;
+import minibird.todaymise.model.Main2Result;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -15,5 +17,15 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public class NetworkService {
+public interface NetworkService {
+
+    @GET("/main1")
+    Call<Main1Result> getMain1Result(@Query("date") String date,
+                                     @Query("location") String location);
+
+    // main2
+    @GET("/main2")
+    Call<Main2Result> getMain2Result(@Query("XVal") String xValue,
+                                     @Query("YVal") String YValue);
+
 }

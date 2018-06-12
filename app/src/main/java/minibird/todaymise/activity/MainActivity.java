@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity{
     private Intent intent;
     private ViewPager viewPager;
     private static String userLocation;
+    private static double longtitude = 0, latitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity{
         viewPager = (ViewPager)findViewById(R.id.main_vp);
         intent = getIntent();
         userLocation = intent.getExtras().getString("userLocation");
+        longtitude = intent.getExtras().getDouble("longtitude");
+        latitude = intent.getExtras().getDouble("latitude");
 
         viewPager.setAdapter(new adapter(getSupportFragmentManager()));
 
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity{
 
             switch(position){
                 case 0: return Main1Fragment.newInstance(userLocation);
-                case 1: return Main2Fragment.newInstance(userLocation);
+                case 1: return Main2Fragment.newInstance(userLocation, Double.toString(longtitude), Double.toString(latitude));
             }
             return cur_fragment;
         }

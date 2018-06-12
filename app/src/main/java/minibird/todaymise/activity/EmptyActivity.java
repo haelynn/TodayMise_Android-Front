@@ -34,6 +34,7 @@ public class EmptyActivity extends AppCompatActivity {
     private int flag;
     private String location;
     private SharedPreferences prefs;
+    private double longtitude = 0, latitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +106,10 @@ public class EmptyActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
 
-            double longtitude = location.getLongitude(); // 경도
-            double latitude = location.getLatitude(); // 위도
-            float accuracy = location.getAccuracy(); // 정확도
-            String provider = location.getProvider();
+            longtitude = location.getLongitude(); // 경도
+            latitude = location.getLatitude(); // 위도
+            // float accuracy = location.getAccuracy(); // 정확도
+            // String provider = location.getProvider();
 
             try{
                 addresses = geocoder.getFromLocation(
@@ -125,6 +126,8 @@ public class EmptyActivity extends AppCompatActivity {
                 Address address = addresses.get(0);
                 String str = address.getLocality().toString() + " " + address.getThoroughfare().toString();
                 intent.putExtra("userLocation", str);
+                intent.putExtra("longtitude", longtitude);
+                intent.putExtra("latitude", latitude);
             }
             startActivity(intent);
             locationManager.removeUpdates(mLocationListener);
