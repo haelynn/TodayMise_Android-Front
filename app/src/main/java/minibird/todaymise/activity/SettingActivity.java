@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class SettingActivity extends AppCompatActivity {
     private ImageButton maskBtn;
     private ImageButton infoBtn;
     private ImageButton settingBtn;
+    private SwitchCompat locBtn;
     private TextView title;
     private Intent intent;
 
@@ -73,5 +75,6 @@ public class SettingActivity extends AppCompatActivity {
         infoBtn = (ImageButton)findViewById(R.id.menu_info_btn);
         settingBtn = (ImageButton)findViewById(R.id.menu_setting_btn);
         title = (TextView)findViewById(R.id.setting_title_tv);
+        locBtn = (SwitchCompat)findViewById(R.id.setting_loc_btn);
     }
 }

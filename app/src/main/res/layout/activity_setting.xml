@@ -70,6 +70,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="준비 중인 서비스입니다"
+                android:textSize="11dp"
+                app:layout_constraintTop_toBottomOf="@id/setting_widget_tv"/>
+
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/setting_widget_btn"
                 android:layout_width="wrap_content"
@@ -79,6 +86,7 @@
                 android:theme="@style/MySwitch"
                 android:scaleX="1.5"
                 android:scaleY="1.5"
+                android:enabled="false"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -89,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:id="@+id/setting_alert_lo"
             app:layout_constraintTop_toBottomOf="@id/setting_widget_lo">
 
             <TextView
@@ -101,10 +110,51 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="준비 중인 서비스입니다"
+                android:textSize="11dp"
+                app:layout_constraintTop_toBottomOf="@id/setting_alert_tv"/>
+
+
             <android.support.v7.widget.SwitchCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/setting_alert_btn"
+                android:checked="false"
+                android:layout_margin="10dp"
+                android:theme="@style/MySwitch"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:enabled="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/setting_alert_lo">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사용자 위치 지정 설정"
+                android:textSize="18dp"
+                android:id="@+id/setting_loc_tv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/setting_loc_btn"
                 android:checked="false"
                 android:layout_margin="10dp"
                 android:theme="@style/MySwitch"

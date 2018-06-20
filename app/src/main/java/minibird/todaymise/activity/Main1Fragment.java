@@ -1,8 +1,10 @@
 package minibird.todaymise.activity;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +60,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class Main1Fragment extends Fragment{
 
     private long mNow;
@@ -74,6 +79,7 @@ public class Main1Fragment extends Fragment{
     private String userLocation, serverDate, locality;
     private Intent intent;
     private int flag;
+    private SharedPreferences prefs;
     private NetworkService service;
 
     //time
@@ -108,6 +114,30 @@ public class Main1Fragment extends Fragment{
 
         final ConstraintLayout constraintLayout = (ConstraintLayout)inflater.inflate(R.layout.main1, container, false);
 
+        service = ApplicationController.getInstance().getNetworkService();
+        getMain1("2018-06-12", locality);
+
+        prefs = getActivity().getSharedPreferences("pref", MODE_PRIVATE);
+
+        int dialogCheck = prefs.getInt("firstCheck", 0);
+        if(dialogCheck == 0){
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.dialoglayout);
+            ImageButton neverBtn = (ImageButton)dialog.findViewById(R.id.dialog_btn);
+
+            dialog.show();
+            neverBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("firstCheck", 1);
+                    editor.commit();
+                }
+            });
+        }
+
+
         // findView
         detailBtn = (Button)constraintLayout.findViewById(R.id.main_detail_btn);
         shareBtn = (Button)constraintLayout.findViewById(R.id.main_share_btn);
@@ -124,14 +154,16 @@ public class Main1Fragment extends Fragment{
         tomorrowImg = (ImageView)constraintLayout.findViewById(R.id.main_two_iv);
         threeImg = (ImageView)constraintLayout.findViewById(R.id.main_three_iv);
 
-        service = ApplicationController.getInstance().getNetworkService();
-        getMain1("2018-06-12", locality);
-
         curTime.setText(getTime());
         timeStart();
         if(userLocation != null)locationTv.setText(userLocation);
         else{
             locationTv.setText("알 수 없는 위치");
+            conditionImg.setImageResource(R.drawable.none);
+            todayImage.setImageResource(R.drawable.none_small);
+            yesterdayImg.setImageResource(R.drawable.none_small);
+            tomorrowImg.setImageResource(R.drawable.none_small);
+            threeImg.setImageResource(R.drawable.none_small);
             Toast.makeText(getActivity(), "설정에서 GPS를 키거나\n직접 위치를 설정해보세요", Toast.LENGTH_SHORT).show();
         }
 
@@ -235,19 +267,22 @@ public class Main1Fragment extends Fragment{
 
                     yesterdayImg.setImageResource(R.drawable.soso_small);
                     if(today.equals("좋음")){
+                        comment.setText("청명해요 우리 산책갈까요?");
                         conditionImg.setImageResource(R.drawable.good);
                         todayImage.setImageResource(R.drawable.good_small);
                     }
                     else if(today.equals("보통")){
-                        Log.e("###", "보통의" + todayImage.getId());
+                        comment.setText("오늘의 먼지 쏘쏘해요 ~_~");
                         conditionImg.setImageResource(R.drawable.soso);
                         todayImage.setImageResource(R.drawable.soso_small);
                     }
                     else if(today.equals("나쁨")){
+                        comment.setText("마스크를 꼭 착용하세요!");
                         conditionImg.setImageResource(R.drawable.bad);
                         todayImage.setImageResource(R.drawable.bad_small);
                     }
                     else if(today.equals("매우나쁨")){
+                        comment.setText("x_x 외출을 삼가하세요");
                         conditionImg.setImageResource(R.drawable.verybad);
                         todayImage.setImageResource(R.drawable.verybad_small);
                     }

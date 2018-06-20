@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".activity.SplashActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,9 +31,12 @@
                     android:scheme="@string/kakao_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.InformationActivity" />
-        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.MainActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activity.InformationActivity"
+                    android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SettingActivity"
+                  android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -41,9 +45,12 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name=".activity.EmptyActivity" />
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.MaskActivity"></activity>
+        <activity android:name=".activity.EmptyActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SearchActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MaskActivity"
+                  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -78,9 +78,25 @@ public class Main2Fragment extends Fragment{
         compImg6 = (ImageView)constraintLayout.findViewById(R.id.main_comp_iv6);
         update = (TextView)constraintLayout.findViewById(R.id.main_update_tv);
 
+        if(userLocation == null){
+            compareTxt.setText("알 수 없어요ㅠ_ㅠ");
+            compImg1.setImageResource(R.drawable.none_small);
+            compImg2.setImageResource(R.drawable.none_small);
+            compImg3.setImageResource(R.drawable.none_small);
+            compImg4.setImageResource(R.drawable.none_small);
+            compImg5.setImageResource(R.drawable.none_small);
+            compImg6.setImageResource(R.drawable.none_small);
+            compList1.setText("알 수 없음");
+            compList2.setText("알 수 없음");
+            compList3.setText("알 수 없음");
+            compList4.setText("알 수 없음");
+            compList5.setText("알 수 없음");
+            compList6.setText("알 수 없음");
+            update.setText("업데이트 시간 알 수 없음");
+        }
+
         service = ApplicationController.getInstance().getNetworkService();
         getResult(longtitude, latitude);
-
 
         buyBtn.setOnClickListener(new View.OnClickListener(){
             @Override

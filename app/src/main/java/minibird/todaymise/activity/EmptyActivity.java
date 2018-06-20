@@ -10,12 +10,14 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -82,6 +84,7 @@ public class EmptyActivity extends AppCompatActivity {
                             locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
                             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
                             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
+
                         }catch (SecurityException ex){
                             Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
                         }
@@ -106,22 +109,24 @@ public class EmptyActivity extends AppCompatActivity {
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-
+            Log.e("#####", "location listener");
             longtitude = location.getLongitude(); // 경도
             latitude = location.getLatitude(); // 위도
             // float accuracy = location.getAccuracy(); // 정확도
-            // String provider = location.getProvider();
+            String provider = location.getProvider();
+            Log.e("#####provier", provider);
 
             try{
                 addresses = geocoder.getFromLocation(
                         latitude, longtitude, 1
                 );
             }catch(IOException e){
-
+                Toast.makeText(getApplicationContext(), "none gps", Toast.LENGTH_LONG).show();
             }catch (IllegalArgumentException a){
-
+                Toast.makeText(getApplicationContext(), "gps error", Toast.LENGTH_LONG).show();
             }
             if(addresses == null || addresses.size() == 0){
+                Log.e("####", "no adress");
                 intent.putExtra("userLocation", location);
             }else{
                 Address address = addresses.get(0);

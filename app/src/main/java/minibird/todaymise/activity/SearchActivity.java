@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -88,8 +89,11 @@ public class SearchActivity extends AppCompatActivity implements OnConnectionFai
                     String str = address.getLocality().toString();
                     if(address.getThoroughfare() != null)
                         str += " " + address.getThoroughfare().toString();
+
                     mainActivity.finish();
+                    Log.e("####", "메인 엑티비티 다운");
                     intent.putExtra("userLocation", str);
+                    intent.putExtra("locality", str);
                     intent.putExtra("state", 0);
 
                     // Toast.makeText(getApplicationContext(), latitude + longitude + str, Toast.LENGTH_LONG).show();
